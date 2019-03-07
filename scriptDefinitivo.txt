@@ -1,0 +1,158 @@
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     06/12/2018 11:08:12 p. m.                    */
+/*==============================================================*/
+
+
+drop table if exists JUEGO;
+
+drop table if exists NOTICIA;
+
+drop table if exists POSEE;
+
+drop table if exists RESENA;
+
+drop table if exists ROL;
+
+drop table if exists USUARIO;
+
+/*==============================================================*/
+/* Table: JUEGO                                                 */
+/*==============================================================*/
+create table JUEGO
+(
+   ID_JUEGO             int not null,
+   ID_USU               int,
+   ID_RESENA            int,
+   NOM_JUEGO            char(100),
+   PLATAFORMA           char(50),
+   GENERO               char(50),
+   primary key (ID_JUEGO)
+);
+
+/*==============================================================*/
+/* Table: NOTICIA                                               */
+/*==============================================================*/
+create table NOTICIA
+(
+   ID_NOTICIA           int not null,
+   NOTICIA              char(256),
+   primary key (ID_NOTICIA)
+);
+
+/*==============================================================*/
+/* Table: POSEE                                                 */
+/*==============================================================*/
+create table POSEE
+(
+   ID_JUEGO             int not null,
+   ID_NOTICIA           int not null,
+   primary key (ID_JUEGO, ID_NOTICIA)
+);
+
+/*==============================================================*/
+/* DBMS name:      MySQL 5.0                                    */
+/* Created on:     09/12/2018 07:14:28 p. m.                    */
+/*==============================================================*/
+
+
+drop table if exists JUEGO;
+
+drop table if exists NOTICIA;
+
+drop table if exists POSEE;
+
+drop table if exists RESENA;
+
+drop table if exists ROL;
+
+drop table if exists USUARIO;
+
+/*==============================================================*/
+/* Table: JUEGO                                                 */
+/*==============================================================*/
+create table JUEGO
+(
+   ID_JUEGO             int not null auto_increment,
+   ID_USU               int,
+   ID_RESENA            int,
+   NOM_JUEGO            char(100),
+   PLATAFORMA           char(50),
+   GENERO               char(50),
+   primary key (ID_JUEGO)
+);
+
+/*==============================================================*/
+/* Table: NOTICIA                                               */
+/*==============================================================*/
+create table NOTICIA
+(
+   ID_NOTICIA           int not null auto_increment,
+   NOTICIA              char(255),
+   primary key (ID_NOTICIA)
+);
+
+/*==============================================================*/
+/* Table: POSEE                                                 */
+/*==============================================================*/
+create table POSEE
+(
+   ID_JUEGO             int not null,
+   ID_NOTICIA           int not null,
+   primary key (ID_JUEGO, ID_NOTICIA)
+);
+
+/*==============================================================*/
+/* Table: RESENA                                                */
+/*==============================================================*/
+create table RESENA
+(
+   ID_RESENA            int not null auto_increment,
+   ID_JUEGO             int,
+   CONTENIDO            char(255),
+   primary key (ID_RESENA)
+);
+
+/*==============================================================*/
+/* Table: ROL                                                   */
+/*==============================================================*/
+create table ROL
+(
+   ID_ROL               int not null auto_increment,
+   NOM_ROL              char(20),
+   primary key (ID_ROL)
+);
+
+/*==============================================================*/
+/* Table: USUARIO                                               */
+/*==============================================================*/
+create table USUARIO
+(
+   ID_USU               int not null auto_increment,
+   ID_ROL               int,
+   NOM_USU              char(100),
+   APE_USU              char(100),
+   CORREO               char(100),
+   CLAVE                char(50),
+   primary key (ID_USU)
+);
+
+alter table JUEGO add constraint FK_INTERACTUA foreign key (ID_USU)
+      references USUARIO (ID_USU) on delete restrict on update restrict;
+
+alter table JUEGO add constraint FK_TIENE foreign key (ID_RESENA)
+      references RESENA (ID_RESENA) on delete restrict on update restrict;
+
+alter table POSEE add constraint FK_POSEE foreign key (ID_JUEGO)
+      references JUEGO (ID_JUEGO) on delete restrict on update restrict;
+
+alter table POSEE add constraint FK_POSEE2 foreign key (ID_NOTICIA)
+      references NOTICIA (ID_NOTICIA) on delete restrict on update restrict;
+
+alter table RESENA add constraint FK_TIENE2 foreign key (ID_JUEGO)
+      references JUEGO (ID_JUEGO) on delete restrict on update restrict;
+
+alter table USUARIO add constraint FK_PERTENECE foreign key (ID_ROL)
+      references ROL (ID_ROL) on delete restrict on update restrict;
+
+
